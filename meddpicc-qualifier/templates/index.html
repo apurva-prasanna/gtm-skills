@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MEDDPICC Deal Qualifier</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Georgia', serif;
+      background: #f7f5f0;
+      color: #1a1a1a;
+      min-height: 100vh;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 3rem 1rem;
+    }
+
+    .container { width: 100%; max-width: 580px; }
+
+    .header { margin-bottom: 2.5rem; }
+
+    .eyebrow {
+      font-family: 'Courier New', monospace;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #888;
+      margin-bottom: 0.75rem;
+    }
+
+    h1 {
+      font-size: 28px;
+      font-weight: normal;
+      color: #1a1a1a;
+      line-height: 1.25;
+      margin-bottom: 0.5rem;
+    }
+
+    .subtitle {
+      font-size: 15px;
+      color: #666;
+      line-height: 1.6;
+      font-style: italic;
+    }
+
+    .card {
+      background: #fff;
+      border: 1px solid #e8e4dc;
+      border-radius: 4px;
+      padding: 2rem;
+    }
+
+    .field { margin-bottom: 1.25rem; }
+    .field:last-of-type { margin-bottom: 0; }
+
+    label {
+      display: block;
+      font-family: 'Courier New', monospace;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #888;
+      margin-bottom: 6px;
+    }
+
+    input[type="text"], textarea {
+      width: 100%;
+      font-family: 'Georgia', serif;
+      font-size: 15px;
+      color: #1a1a1a;
+      background: #faf9f6;
+      border: 1px solid #e8e4dc;
+      border-radius: 3px;
+      padding: 10px 12px;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    input[type="text"]:focus, textarea:focus {
+      border-color: #bbb;
+      background: #fff;
+    }
+    textarea { resize: vertical; min-height: 140px; line-height: 1.6; }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 1.25rem;
+    }
+    .two-col .field { margin-bottom: 0; }
+
+    .hint {
+      font-size: 13px;
+      color: #aaa;
+      margin-top: 6px;
+      font-style: italic;
+      line-height: 1.5;
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 12px;
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #fff;
+      background: #1a1a1a;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: background 0.15s;
+      margin-top: 1.25rem;
+    }
+    .submit-btn:hover { background: #333; }
+
+    .error {
+      background: #fdf0f0;
+      border: 1px solid #f0d0d0;
+      border-radius: 3px;
+      padding: 12px;
+      font-size: 14px;
+      color: #c00;
+      margin-bottom: 1.5rem;
+    }
+
+    .footer {
+      margin-top: 1.5rem;
+      font-family: 'Courier New', monospace;
+      font-size: 11px;
+      color: #bbb;
+      text-align: center;
+      letter-spacing: 0.06em;
+    }
+    .footer a { color: #999; text-decoration: none; }
+    .footer a:hover { color: #555; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="eyebrow">Narratives & Nodes</div>
+      <h1>MEDDPICC Deal Qualifier</h1>
+      <p class="subtitle">Built for adtech and media sales. Enter a client and whatever context you have — it researches the rest and flags what you still need to find out.</p>
+    </div>
+
+    {% if error %}
+    <div class="error">{{ error }}</div>
+    {% endif %}
+
+    <div class="card">
+      <form method="POST" action="/qualify">
+        <div class="two-col">
+          <div class="field">
+            <label for="client">Client / brand</label>
+            <input type="text" id="client" name="client" placeholder="e.g. Canva, Telstra" required />
+          </div>
+          <div class="field">
+            <label for="market">Market</label>
+            <input type="text" id="market" name="market" placeholder="e.g. Australia, SEA" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="context">What you know about the deal</label>
+          <textarea id="context" name="context" placeholder="Paste meeting notes, agency intel, brief details, or anything you know. The less context you give it, the more it flags as To Validate — which is usually the point."></textarea>
+          <p class="hint">Works for brand-direct and agency-led deals. Detects deal type from your context.</p>
+        </div>
+
+        <input type="submit" class="submit-btn" value="Qualify this deal →" />
+      </form>
+    </div>
+
+    <div class="footer">
+      <a href="https://apurvap.substack.com" target="_blank">Narratives & Nodes</a> &nbsp;·&nbsp;
+      <a href="https://github.com/apurva-prasanna/gtm-skills" target="_blank">GitHub</a>
+    </div>
+  </div>
+</body>
+</html>
