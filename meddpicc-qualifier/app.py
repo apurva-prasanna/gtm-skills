@@ -2,9 +2,13 @@ import os
 import json
 import anthropic
 from flask import Flask, render_template, request
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
 
 app = Flask(__name__)
 client = anthropic.Anthropic(api_key=os.environ.get("ANTHROPIC_API_KEY"))
+
+limiter = Limiter(get_remote_address, app=app, default_limits=[])
 
 SYSTEM_PROMPT = """You are a senior enterprise sales qualification expert specialising in adtech, media, and advertising technology in APAC. You help sales and client services teams at DSPs, ad networks, measurement companies, and media platforms qualify deals using MEDDPICC.
 
@@ -208,6 +212,7 @@ def index():
 
 
 @app.route("/qualify", methods=["POST"])
+@limiter.limit("10 per hour")
 def qualify():
     client_name = request.form.get("client", "").strip()
     market = request.form.get("market", "").strip()
@@ -222,6 +227,11 @@ def qualify():
     except Exception as e:
         print(f"Error: {e}")
         return render_template("index.html", error=f"Something went wrong: {str(e)}")
+
+
+@app.errorhandler(429)
+def rate_limit_exceeded(e):
+    return render_template("index.html", error="Too many requests — try again in an hour."), 429
 
 
 if __name__ == "__main__":

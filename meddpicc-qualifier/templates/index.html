@@ -116,6 +116,18 @@
       margin-top: 1.25rem;
     }
     .submit-btn:hover { background: #333; }
+    .submit-btn:disabled { background: #888; cursor: not-allowed; }
+
+    .loading-status {
+      display: none;
+      margin-top: 1rem;
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+      color: #888;
+      text-align: center;
+      letter-spacing: 0.06em;
+    }
+    .loading-status.visible { display: block; }
 
     .error {
       background: #fdf0f0;
@@ -170,7 +182,8 @@
           <p class="hint">Works for brand-direct and agency-led deals. Detects deal type from your context.</p>
         </div>
 
-        <input type="submit" class="submit-btn" value="Qualify this deal →" />
+        <input type="submit" class="submit-btn" id="submit-btn" value="Qualify this deal →" />
+        <div class="loading-status" id="loading-status">Researching — this takes 1–2 minutes...</div>
       </form>
     </div>
 
@@ -179,5 +192,19 @@
       <a href="https://github.com/apurva-prasanna/gtm-skills" target="_blank">GitHub</a>
     </div>
   </div>
+  <script>
+    const form = document.querySelector('form');
+    const btn = document.getElementById('submit-btn');
+    const status = document.getElementById('loading-status');
+    let submitted = false;
+
+    form.addEventListener('submit', (e) => {
+      if (submitted) { e.preventDefault(); return; }
+      submitted = true;
+      btn.disabled = true;
+      btn.value = 'Researching...';
+      status.classList.add('visible');
+    });
+  </script>
 </body>
 </html>
